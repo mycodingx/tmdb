@@ -6,6 +6,7 @@ const Vision = require('vision');
 const Handlebars = require('handlebars');
 const LodashFilter = require('lodash.filter');
 const LodashTake = require('lodash.take');
+const api_key = require('./constants/constants');
 
 const server = new Hapi.Server();
 
@@ -41,13 +42,11 @@ server.route({
     method: 'GET',
     path: '/',
     handler: function (request, reply) {
-        Request.get('https://api.themoviedb.org/3/movie/top_rated?api_key=', function (error, response, body) {
+        Request.get('https://api.themoviedb.org/3/movie/top_rated?api_key='+api_key, function (error, response, body) {
             if (error) {
                 throw error;
             }
-
             const data = JSON.parse(body);
-            //console.log(data);
             reply.view('index', { result: data });
         });
     }
